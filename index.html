@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>CartIQ Smart Store</h1>
+
+{% if session.user %}
+<p>Welcome {{session.user}} |
+<a href="/logout">Logout</a></p>
+{% else %}
+<a href="/login">Login</a>
+{% endif %}
+
+<h2>All Phones</h2>
+
+{% for p in products %}
+<div class="card">
+    <a href="/product/{{p.id}}">
+        <h3>{{p.brand}} {{p.model}}</h3>
+        <p>$ {{p.price}}</p>
+    </a>
+</div>
+{% endfor %}
+
+{% if recommendations %}
+<h2>🤖 AI Recommended For You</h2>
+
+{% for r in recommendations %}
+<div class="card ai">
+    <a href="/product/{{r.id}}">
+        <h3>{{r.brand}} {{r.model}}</h3>
+        <p>$ {{r.price}}</p>
+    </a>
+</div>
+{% endfor %}
+{% endif %}
+
+</body>
+</html>

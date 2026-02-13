@@ -1,0 +1,7 @@
+[
+  {"id":1,"brand":"Samsung","model":"Galaxy S21","price":800,"ram":8,"storage":128,"rating":4.5},
+  {"id":2,"brand":"Apple","model":"iPhone 13","price":999,"ram":6,"storage":128,"rating":4.8},
+  {"id":3,"brand":"Xiaomi","model":"Redmi Note 12","price":300,"ram":8,"storage":256,"rating":4.3},
+  {"id":4,"brand":"OnePlus","model":"OnePlus 11","price":700,"ram":12,"storage":256,"rating":4.6},
+  {"id":5,"brand":"Samsung","model":"Galaxy A54","price":450,"ram":8,"storage":128,"rating":4.2}
+]
