@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>{{product.brand}} {{product.model}}</h1>
+
+<p>Price: ${{product.price}}</p>
+<p>RAM: {{product.ram}} GB</p>
+<p>Storage: {{product.storage}} GB</p>
+<p>Rating: {{product.rating}}</p>
+
+<h2>Similar Phones</h2>
+
+{% for r in recs %}
+<div class="card">
+    <a href="/product/{{r.id}}">
+        <h4>{{r.brand}} {{r.model}}</h4>
+    </a>
+</div>
+{% endfor %}
+
+<a href="/">Back</a>
+
+</body>
+</html>

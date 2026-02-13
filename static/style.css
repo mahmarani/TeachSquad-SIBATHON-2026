@@ -1,0 +1,15 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    width: 250px;
+}
+
+.ai {
+    background-color: #e6f7ff;
+}
