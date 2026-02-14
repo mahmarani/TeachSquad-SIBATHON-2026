@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+
+  <h1 class="auth-title">Welcome to CartIQ</h1>
+  <p class="muted center">Login or create a new account</p>
+
+  <div class="auth">
+
+    <!-- ================= LOGIN ================= -->
+    <div class="box">
+      <h2>Login</h2>
+
+      <form method="post" action="/login" onsubmit="return validateLogin()">
+        <input type="hidden" name="action" value="login">
+
+        <label>Username</label>
+        <input id="login_user" name="username" placeholder="Enter username" required>
+
+        <label>Password</label>
+        <div class="password-field">
+          <input id="login_pass" name="password" type="password" placeholder="Enter password" required>
+          <span onclick="togglePass('login_pass', this)">👁</span>
+        </div>
+
+        <button class="btn full" type="submit">Login</button>
+      </form>
+    </div>
+
+
+    <!-- ================= REGISTER ================= -->
+    <div class="box">
+      <h2>Create Account</h2>
+
+      <form method="post" action="/login" onsubmit="return validateRegister()">
+        <input type="hidden" name="action" value="register">
+
+        <label>Full Name</label>
+        <input name="full_name" placeholder="Your full name" required>
+
+        <label>Username</label>
+        <input id="reg_user" name="username" placeholder="Choose username" required>
+
+        <label>Email</label>
+        <input name="email" type="email" placeholder="example@email.com" required>
+
+        <label>Phone</label>
+        <input name="phone" placeholder="03xxxxxxxxx">
+
+        <label>Password</label>
+        <div class="password-field">
+          <input id="reg_pass" name="password" type="password" placeholder="Min 6 characters" required>
+          <span onclick="togglePass('reg_pass', this)">👁</span>
+        </div>
+
+        <label>Confirm Password</label>
+        <div class="password-field">
+          <input id="reg_pass2" type="password" placeholder="Repeat password" required>
+          <span onclick="togglePass('reg_pass2', this)">👁</span>
+        </div>
+
+        <div id="reg_error" class="form-error"></div>
+
+        <button class="btn outline full" type="submit">Create Account</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+
+/* show/hide password */
+function togglePass(id, el){
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+  el.textContent = input.type === "password" ? "👁" : "🙈";
+}
+
+/* login validation */
+function validateLogin(){
+  const u = document.getElementById("login_user").value.trim();
+  const p = document.getElementById("login_pass").value.trim();
+
+  if(u.length < 3){
+    alert("Username must be at least 3 characters");
+    return false;
+  }
+  if(p.length < 3){
+    alert("Enter password");
+    return false;
+  }
+  return true;
+}
+
+/* register validation */
+function validateRegister(){
+  const p1 = document.getElementById("reg_pass").value;
+  const p2 = document.getElementById("reg_pass2").value;
+  const error = document.getElementById("reg_error");
+
+  if(p1.length < 6){
+    error.innerText = "Password must be at least 6 characters";
+    return false;
+  }
+
+  if(p1 !== p2){
+    error.innerText = "Passwords do not match";
+    return false;
+  }
+
+  error.innerText = "";
+  return true;
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">Mobile Store</h1>
+<form class="filters" method="GET" action="/">
+  
+  <input type="hidden" name="q" value="{{ q }}">
+
+  <select name="brand">
+    <option value="">All Brands</option>
+    {% for b in brands %}
+      <option value="{{ b }}" {% if brand==b %}selected{% endif %}>{{ b }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="category">
+    <option value="">All Categories</option>
+    {% for c in categories %}
+      <option value="{{ c }}" {% if category==c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="sort">
+    <option value="">Default</option>
+    <option value="price_asc" {% if sort=="price_asc" %}selected{% endif %}>Price Low → High</option>
+    <option value="price_desc" {% if sort=="price_desc" %}selected{% endif %}>Price High → Low</option>
+  </select>
+
+  <button class="btn tiny">Apply</button>
+</form>
+
+<div class="grid">
+  {% for p in products %}
+  <div class="card">
+    <a href="/product/{{ p.id }}">
+      <img class="thumb" src="/static/img/{{ p.image }}" alt="{{ p.name }}">
+    </a>
+    <div class="card-body">
+      <div class="row">
+        <div>
+          <div class="name">{{ p.name }}</div>
+          <div class="muted">{{ p.brand }}</div>
+        </div>
+        <div class="price">Rs {{ p.price }}</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" onclick="addToCart({{p.id}})">Add to Cart</button>
+       <button class="btn outline" onclick="toggleWish({{p.id}})">♥</button>
+        <a class="btn outline" href="/buy-now/{{p.id}}">Buy Now</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function addToCart(pid){
+  const res = await postJSON("/api/cart/add", {product_id: pid, qty: 1});
+  if(res.status === 401){
+    window.location.href = "/login";
+    return;
+  }
+  alert("Added to cart");
+  window.location.reload();
+}
+async function toggleWish(pid){
+  const res = await postJSON("/api/wishlist/toggle",{product_id:pid});
+  if(res.status===401){ window.location="/login"; return;}
+  alert(res.data.status==="added"?"Added to wishlist":"Removed from wishlist");
+}
+
+</script>
+{% endblock %}

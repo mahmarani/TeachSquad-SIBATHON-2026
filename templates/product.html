@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="detail">
+  <img class="hero" src="/static/img/{{ phone.image }}" alt="{{ phone.name }}">
+
+  <div class="detail-info">
+    <h1>{{ phone.name }}</h1>
+    <div class="muted">{{ phone.brand }}</div>
+    <div class="price big">Rs {{ phone.price }}</div>
+    <p class="desc">{{ phone.desc }}</p>
+
+    <!-- ⭐ Average Rating -->
+    <div class="rating-box">
+      <h3>⭐ Average Rating: {{ avg_rating }}/5</h3>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="addToCart({{phone.id}})">Add to Cart</button>
+
+      <!-- ❤️ Wishlist Button -->
+      <button class="btn outline" onclick="toggleWish({{phone.id}})" id="wishbtn">
+        {% if wishlisted %}♥ Saved{% else %}♡ Wishlist{% endif %}
+      </button>
+
+      <a class="btn outline" href="/buy-now/{{phone.id}}">Buy Now</a>
+      <a class="link" href="/">Back</a>
+    </div>
+
+    <!-- ✍️ Review Form (only buyers) -->
+    {% if can_review %}
+    <div class="review-form">
+      <h3>Write a Review</h3>
+      <form method="POST" action="/add_review/{{ phone.id }}">
+        
+        <label>Rating:</label>
+        <select name="rating" required>
+          <option value="">Select</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="1">⭐</option>
+        </select>
+
+        <textarea name="comment" placeholder="Write your experience..." required></textarea>
+
+        <button class="btn" type="submit">Submit Review</button>
+      </form>
+    </div>
+    {% endif %}
+
+    <!-- 💬 Reviews List -->
+    <div class="reviews">
+      <h3>Customer Reviews</h3>
+
+      {% for r in reviews %}
+        <div class="review">
+          <b>⭐ {{ r.rating }}/5</b>
+          <p>{{ r.comment }}</p>
+          <small>{{ r.date }}</small>
+          <hr>
+        </div>
+      {% else %}
+        <p class="muted">No reviews yet</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function addToCart(pid){
+  const res = await postJSON("/api/cart/add", {product_id: pid, qty: 1});
+  if(res.status === 401){
+    window.location.href = "/login";
+    return;
+  }
+  alert("Added to cart");
+  window.location.href = "/cart";
+}
+</script>
+
+<script>
+async function toggleWish(pid){
+  const response = await fetch("/api/wishlist/toggle", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ product_id: pid })
+  });
+
+  if(response.status === 401){
+    window.location.href="/login";
+    return;
+  }
+
+  const data = await response.json();
+
+  const btn = document.getElementById("wishbtn");
+  if(data.wishlisted){
+    btn.innerHTML = "♥ Saved";
+  }else{
+    btn.innerHTML = "♡ Wishlist";
+  }
+}
+</script>
+{% endblock %}

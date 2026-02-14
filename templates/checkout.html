@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">Checkout</h1>
+
+<div class="checkout">
+  <div class="box">
+    <h2>Delivery Info</h2>
+    <form method="post" action="/checkout">
+      <label>Full Name</label>
+      <input name="full_name" required>
+
+      <label>Phone</label>
+      <input name="phone" required>
+
+      <label>Address</label>
+      <textarea name="address" rows="4" required></textarea>
+
+      <button class="btn" type="submit">Place Order</button>
+    </form>
+  </div>
+
+  <div class="box">
+    <h2>Order Summary</h2>
+    {% for it in items %}
+      <div class="line">
+        <div class="grow">
+          <div class="name">{{ it.name }} x {{ it.qty }}</div>
+          <div class="muted">Rs {{ it.price }}</div>
+        </div>
+        <div class="price">Rs {{ it.line_total }}</div>
+      </div>
+    {% endfor %}
+    <div class="hr"></div>
+    <div class="row">
+      <div class="muted">Total</div>
+      <div class="price big">Rs {{ total }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

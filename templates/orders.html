@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">My Orders</h1>
+
+{% if not orders %}
+  <p class="muted">No orders yet.</p>
+{% else %}
+  <div class="list">
+    {% for o in orders %}
+      <div class="order">
+        <div class="row">
+          <div>
+            <div class="name">Order #{{ o.order_id }}</div>
+            <div class="muted">{{ o.created_at }}</div>
+          </div>
+          <div class="price big">Rs {{ o.total }}</div>
+        </div>
+
+        <!-- ⭐ STATUS TEXT -->
+        <div class="status">
+          Status: <b>{{ o.status if o.status else "Placed" }}</b>
+        </div>
+
+        <!-- 🚚 PROGRESS TRACKER -->
+        <div class="progress">
+          <div class="step {% if o.status in ['Placed','Confirmed','Packed','Shipped','Delivered'] %}done{% endif %}">Placed</div>
+          <div class="step {% if o.status in ['Confirmed','Packed','Shipped','Delivered'] %}done{% endif %}">Confirmed</div>
+          <div class="step {% if o.status in ['Packed','Shipped','Delivered'] %}done{% endif %}">Packed</div>
+          <div class="step {% if o.status in ['Shipped','Delivered'] %}done{% endif %}">Shipped</div>
+          <div class="step {% if o.status in ['Delivered'] %}done{% endif %}">Delivered</div>
+        </div>
+
+        <div class="muted">Ship to: {{ o.customer.full_name }}, {{ o.customer.phone }}</div>
+        <div class="muted">{{ o.customer.address }}</div>
+
+        <div class="hr"></div>
+
+        {% for it in o.items %}
+          <div class="line">
+            <div class="grow">{{ it.name }} x {{ it.qty }}</div>
+            <div class="price">Rs {{ it.line_total }}</div>
+          </div>
+        {% endfor %}
+
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
