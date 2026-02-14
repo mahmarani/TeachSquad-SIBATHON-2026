@@ -198,32 +198,32 @@ def home():
 
     products = get_products()
 
-    # search
     if q:
         products = [p for p in products if q in p["name"].lower() or q in p["brand"].lower()]
 
-    # brand filter
     if brand:
         products = [p for p in products if p.get("brand") == brand]
 
-    # category filter
     if category:
         products = [p for p in products if p.get("category") == category]
 
-    # sorting
     if sort == "price_asc":
         products = sorted(products, key=lambda x: int(x["price"]))
     elif sort == "price_desc":
         products = sorted(products, key=lambda x: int(x["price"]), reverse=True)
 
-    # dropdown lists
     all_products = get_products()
     brands = sorted(list(set(p.get("brand", "") for p in all_products if p.get("brand"))))
     categories = sorted(list(set(p.get("category", "") for p in all_products if p.get("category"))))
 
+    # ⭐ ADD THIS PART
+    user = current_user()
+    wishlist = get_wishlist(user["id"]) if user else []
+
     return render_template(
         "home.html",
         products=products,
+        wishlist=wishlist,
         q=q,
         brand=brand,
         category=category,
@@ -342,66 +342,71 @@ def wishlist_page():
 
     ids = get_wishlist(user["id"])
     products = [p for p in get_products() if p["id"] in ids]
-    return render_template("wishllist.html", products=products)
+    return render_template("wishlist.html", products=products)
 
 
 # ===================== LOGIN / REGISTER =====================
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET","POST"])
 def login():
+
     if request.method == "GET":
         return render_template("login.html")
 
     action = request.form.get("action")
-    username = request.form.get("username", "").strip()
-    password = request.form.get("password", "").strip()
+    username = request.form.get("username","").strip()
+    password = request.form.get("password","").strip()
 
     users = read_json(USERS_FILE, [])
 
-    # register
+    # -------- REGISTER --------
     if action == "register":
+
         if not username or not password:
-            flash("Username and password required.")
+            flash("Fill all fields")
             return redirect(url_for("login"))
 
-        if any(u["username"].lower() == username.lower() for u in users):
-            flash("Username already exists.")
+        if any(u["username"].lower()==username.lower() for u in users):
+            flash("Username already exists")
             return redirect(url_for("login"))
 
-        new_id = (max([u["id"] for u in users]) + 1) if users else 1
+        new_id = max([u["id"] for u in users], default=0) + 1
+
         users.append({
-    "id": new_id,
-    "username": username,
-    "full_name": request.form.get("full_name",""),
-    "email": request.form.get("email",""),
-    "phone": request.form.get("phone",""),
-    "role": "user",
-    "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "last_login": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "password_hash": generate_password_hash(password)
-})
+            "id": new_id,
+            "username": username,
+            "full_name": request.form.get("full_name",""),
+            "email": request.form.get("email",""),
+            "phone": request.form.get("phone",""),
+            "role": "user",
+            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "last_login": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "password_hash": generate_password_hash(password)
+        })
 
         write_json(USERS_FILE, users)
 
         session["user_id"] = new_id
-        flash("Registered successfully.")
+        flash("Account created successfully")
         return redirect(url_for("home"))
 
-    # login
-    user = next((u for u in users if u["username"].lower() == username.lower()), None)
-    if not user or not check_password_hash(user["password_hash"], password):
-        flash("Invalid username or password.")
-        return redirect(url_for("login"))
+    # -------- LOGIN --------
+    elif action == "login":
 
-    session["user_id"] = user["id"]
-    flash("Logged in.")
-    return redirect(url_for("home"))
+        user = next((u for u in users if u["username"].lower()==username.lower()), None)
 
+        if not user:
+            flash("User not found")
+            return redirect(url_for("login"))
 
-@app.route("/logout")
-def logout():
-    session.pop("user_id", None)
-    flash("Logged out.")
-    return redirect(url_for("home"))
+        if not check_password_hash(user["password_hash"], password):
+            flash("Wrong password")
+            return redirect(url_for("login"))
+
+        session["user_id"] = user["id"]
+        flash("Welcome back!")
+        return redirect(url_for("home"))
+
+    return redirect(url_for("login"))
 
 
 # ===================== CART PAGES =====================

@@ -4,5 +4,16 @@
     "username": "asmahussain",
     "password_hash": "scrypt:32768:8:1$vohgz7QQEGQmJqmW$f903759726e6455325251c2ad802365b406babd14a5dff603126303b87d01faeaa2b9f624fe22c9c578bc4398b309461e9256b3edc07c6e142b9400f1cada760",
     "last_login": "2026-02-14 01:11:53"
+  },
+  {
+    "id": 2,
+    "username": "asmahussain12",
+    "full_name": "Asma Hussain ",
+    "email": "asma.hussain.mughal@gmail.com",
+    "phone": "02233445566",
+    "role": "user",
+    "created_at": "2026-02-14 12:40:20",
+    "last_login": "2026-02-14 12:40:20",
+    "password_hash": "scrypt:32768:8:1$JHFGYhdRHejMs32I$a6e06036a6df6b12aa8ce166b1eb3403fa4191491746a759e3a64c5834f9fc9c04e04348d892b458c483f752c841fc31d2f1061ba5d8d88263bf1da3915c3cc9"
   }
 ]

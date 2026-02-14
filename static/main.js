@@ -82,3 +82,25 @@ html+=`<div>Order by ${o.user} — ${o.address}</div>`;
 document.getElementById("orders").innerHTML=html;
 });
 }
+
+
+// ================= LOGIN BUTTON UX =================
+const loginForm = document.querySelector('form[action="/login"]');
+if(loginForm){
+    loginForm.addEventListener("submit", function(){
+        const btn = loginForm.querySelector("button[type='submit']");
+        btn.innerText = "Please wait...";
+        btn.disabled = true;
+    });
+}
+
+// ================= REGISTER BUTTON UX =================
+const regInput = document.querySelector('input[name="action"][value="register"]');
+if(regInput){
+    const regForm = regInput.closest("form");
+    regForm.addEventListener("submit", function(){
+        const btn = regForm.querySelector("button[type='submit']");
+        btn.innerText = "Creating account...";
+        btn.disabled = true;
+    });
+}

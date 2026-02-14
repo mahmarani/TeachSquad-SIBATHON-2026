@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>Your Wishlist</h2>
 
-<div class="grid">
+<div class="grid" id="wishlist-grid">
+
   {% for p in products %}
-  <div class="card">
+  <div class="card" id="product-{{p.id}}">
     <img class="thumb" src="/static/img/{{ p.image }}">
+
     <div class="card-body">
       <div class="name">{{ p.name }}</div>
       <div class="muted">{{ p.brand }}</div>
@@ -13,11 +16,43 @@
 
       <div class="actions">
         <a class="btn tiny" href="/product/{{p.id}}">View</a>
+
+        <!-- HEART REMOVE BUTTON -->
+        <button class="heart-btn" onclick="toggleWishlist({{p.id}})">
+          ❤️
+        </button>
+
       </div>
     </div>
   </div>
   {% else %}
-  <p>No items saved</p>
+    <p id="empty-msg">No items saved</p>
   {% endfor %}
+
 </div>
+
+<script>
+function toggleWishlist(pid) {
+    fetch("/toggle_wishlist/" + pid)
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.status === "removed") {
+
+            // remove card visually
+            const card = document.getElementById("product-" + pid);
+            if(card) card.remove();
+
+            // if list empty show message
+            const grid = document.getElementById("wishlist-grid");
+            if(grid.children.length === 0){
+                grid.innerHTML = "<p>No items saved</p>";
+            }
+
+            alert("Removed from wishlist");
+        }
+    });
+}
+</script>
+
 {% endblock %}
