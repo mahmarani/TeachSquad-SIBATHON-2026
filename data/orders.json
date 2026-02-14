@@ -1,0 +1,67 @@
+[
+  {
+    "order_id": 1,
+    "user_id": 1,
+    "customer": {
+      "full_name": "Muhammad Asfan",
+      "phone": "1234",
+      "address": "1414"
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "iPhone 13",
+        "price": 180000,
+        "image": "iphone13.png",
+        "qty": 1,
+        "line_total": 180000
+      }
+    ],
+    "total": 180000,
+    "created_at": "2026-02-14 00:22:14"
+  },
+  {
+    "order_id": 2,
+    "user_id": 1,
+    "customer": {
+      "full_name": "Muhammad Asfan",
+      "phone": "2314",
+      "address": "424"
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "iPhone 13",
+        "price": 180000,
+        "image": "iphone13.png",
+        "qty": 1,
+        "line_total": 180000
+      }
+    ],
+    "total": 180000,
+    "status": "Placed",
+    "created_at": "2026-02-14 00:56:10"
+  },
+  {
+    "order_id": 3,
+    "user_id": 1,
+    "customer": {
+      "full_name": "Muhammad Asfan",
+      "phone": "1234",
+      "address": "as"
+    },
+    "items": [
+      {
+        "id": 2,
+        "name": "iPhone 12",
+        "price": 155000,
+        "image": "iphone12.png",
+        "qty": 1,
+        "line_total": 155000
+      }
+    ],
+    "total": 155000,
+    "status": "Placed",
+    "created_at": "2026-02-14 01:13:00"
+  }
+]

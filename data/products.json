@@ -1,0 +1,21 @@
+[
+  {"id": 1, "name": "iPhone 13", "price": 180000, "brand": "Apple", "desc": "A15 chip, strong camera, smooth performance.", "image": "iphone13.png", "category": "Flagship"},
+
+  {"id": 2, "name": "iPhone 12", "price": 155000, "brand": "Apple", "desc": "Great performance and premium build.", "image": "iphone12.png", "category": "Flagship"},
+
+  {"id": 3, "name": "Samsung Galaxy S21", "price": 150000, "brand": "Samsung", "desc": "Flagship Android with great display.", "image": "s21.jpeg", "category": "Flagship"},
+
+  {"id": 4, "name": "Samsung Galaxy A52", "price": 85000, "brand": "Samsung", "desc": "Balanced phone, good camera and screen.", "image": "a52.png", "category": "Midrange"},
+
+  {"id": 5, "name": "Xiaomi Redmi Note 12", "price": 60000, "brand": "Xiaomi", "desc": "Budget friendly with solid performance.", "image": "redmi_note_12.jpeg", "category": "Budget"},
+
+  {"id": 6, "name": "Xiaomi Poco X3", "price": 70000, "brand": "Xiaomi", "desc": "Gaming-focused budget phone.", "image": "poco_x3.jpeg", "category": "Midrange"},
+
+  {"id": 7, "name": "OnePlus 9", "price": 125000, "brand": "OnePlus", "desc": "Fast, smooth UI, strong performance.", "image": "oneplus9.png", "category": "Flagship"},
+
+  {"id": 8, "name": "Google Pixel 6", "price": 140000, "brand": "Google", "desc": "Clean Android and excellent camera.", "image": "pixel6.jpeg", "category": "Flagship"},
+
+  {"id": 9, "name": "Infinix Note 12", "price": 45000, "brand": "Infinix", "desc": "Affordable phone for daily use.", "image": "infinix_note_12.png", "category": "Budget"},
+
+  {"id": 10, "name": "Tecno Camon 20", "price": 50000, "brand": "Tecno", "desc": "Good design and camera in budget range.", "image": "tecno_camon_20.jpeg", "category": "Budget"}
+]
