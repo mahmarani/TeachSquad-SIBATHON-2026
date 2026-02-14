@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">Your Cart</h1>
+
+{% if not items %}
+  <p class="muted">Cart is empty.</p>
+{% else %}
+  <div class="list">
+    {% for it in items %}
+      <div class="line">
+        <img class="mini" src="/static/img/{{ it.image }}" alt="{{ it.name }}">
+        <div class="grow">
+          <div class="name">{{ it.name }}</div>
+          <div class="muted">Rs {{ it.price }}</div>
+        </div>
+
+        <div class="qty">
+          <button class="btn tiny outline" onclick="changeQty({{it.id}}, {{it.qty - 1}})">-</button>
+          <input class="qtybox" value="{{ it.qty }}" readonly>
+          <button class="btn tiny outline" onclick="changeQty({{it.id}}, {{it.qty + 1}})">+</button>
+        </div>
+
+        <div class="price">Rs {{ it.line_total }}</div>
+        <button class="btn tiny" onclick="removeItem({{it.id}})">Remove</button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="summary">
+    <div class="row">
+      <div class="muted">Total</div>
+      <div class="price big">Rs {{ total }}</div>
+    </div>
+    <a class="btn" href="/checkout">Proceed to Checkout</a>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function changeQty(pid, qty){
+  const res = await postJSON("/api/cart/update", {product_id: pid, qty: qty});
+  if(res.status === 401){ window.location.href="/login"; return; }
+  window.location.reload();
+}
+async function removeItem(pid){
+  const res = await postJSON("/api/cart/remove", {product_id: pid});
+  if(res.status === 401){ window.location.href="/login"; return; }
+  window.location.reload();
+}
+</script>
+{% endblock %}
